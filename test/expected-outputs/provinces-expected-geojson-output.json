@@ -1,29 +1,43 @@
 {
-  "type": "MultiPolygon",
-  "coordinates": [
-    [
-      [
-        [40.0, 40.0],
-        [20.0, 45.0],
-        [45.0, 30.0],
-        [40.0, 40.0]
-      ]
-    ],
-    [
-      [
-        [20.0, 35.0],
-        [10.0, 30.0],
-        [10.0, 10.0],
-        [30.0, 5.0],
-        [45.0, 20.0],
-        [20.0, 35.0]
+  "type": "GeometryCollection",
+  "geometries": [
+    {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [40, 40],
+          [20, 45],
+          [45, 30],
+          [40, 40]
+        ]
       ],
-      [
-        [30.0, 20.0],
-        [20.0, 15.0],
-        [20.0, 25.0],
-        [30.0, 20.0]
-      ]
-    ]
+      "properties": { "colourHexCode": "#FF00FF", "data": null }
+    },
+    {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [20, 35],
+          [10, 30],
+          [10, 10],
+          [30, 5],
+          [45, 20],
+          [20, 35]
+        ]
+      ],
+      "properties": { "colourHexCode": "#00FFFF", "data": null }
+    },
+    {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [30, 20],
+          [20, 15],
+          [20, 25],
+          [30, 20]
+        ]
+      ],
+      "properties": { "colourHexCode": "#0000FF", "data": null }
+    }
   ]
 }

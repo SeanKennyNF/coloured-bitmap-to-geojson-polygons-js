@@ -1,7 +1,15 @@
 export type Coordinate = [number, number];
-export type PolygonCoordinateSet = Array<Array<Coordinate>>;
 
-export interface OutputGeoJSON {
-  type: "MultiPolygon",
-  coordinates: Array<PolygonCoordinateSet>;
+export interface Polygon<TData extends Record<string, unknown>> {
+  type: "Polygon";
+  coordinates: Array<Array<Coordinate>>;
+  properties: {
+    colourHexCode: string;
+    data: TData | null;
+  }
+}
+
+export interface OutputGeoJSON<TData extends Record<string, unknown>> {
+  type: "GeometryCollection";
+  geometries: Array<Polygon<TData>>;
 }

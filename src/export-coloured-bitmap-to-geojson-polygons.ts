@@ -6,19 +6,20 @@ import { extractImageDataFromHexBmpData } from "./image-data.js";
 import { determineBitmapWidthAndHeight } from "./bitmap-width-and-height.js";
 import { consolidateImageDataIntoPolygons } from "./image-data-to-polygons.js";
 
-export interface ExportColouredBitmapToGeoJSONPolygonsInput {
+export interface ExportColouredBitmapToGeoJSONPolygonsInput<TData extends Record<string, unknown>> {
   inputFilePath: string;
   bitmapWidthPx?: number | undefined;
   bitmapHeightPx?: number | undefined;
+  colourToPropertiesMap: Record<string, TData>;
 }
-export interface ExportColouredBitmapToGeoJSONPolygonsOutput {
-  outputGeoJSON: OutputGeoJSON
+export interface ExportColouredBitmapToGeoJSONPolygonsOutput<TData extends Record<string, unknown>> {
+  outputGeoJSON: OutputGeoJSON<TData>
   bmpFileMetadata: BmpFileMetadata
 }
 
-export const exportColouredBitmapToGeoJSONPolygons = async(
-  input: ExportColouredBitmapToGeoJSONPolygonsInput
-): Promise<ExportColouredBitmapToGeoJSONPolygonsOutput> => {
+export const exportColouredBitmapToGeoJSONPolygons = async<TData extends Record<string, unknown>>(
+  input: ExportColouredBitmapToGeoJSONPolygonsInput<TData>
+): Promise<ExportColouredBitmapToGeoJSONPolygonsOutput<TData>> => {
   const bmpData = await readFile(input.inputFilePath);
 
   const hexBmpData = bmpData.toString('hex');
@@ -39,7 +40,8 @@ export const exportColouredBitmapToGeoJSONPolygons = async(
   });
   const { polygons } = consolidateImageDataIntoPolygons({
     imageData,
-    allColoursPresent
+    allColoursPresent,
+    colourToPropertiesMap: input.colourToPropertiesMap
   }) 
 
   return {
@@ -49,8 +51,8 @@ export const exportColouredBitmapToGeoJSONPolygons = async(
       colourMap
     },
     outputGeoJSON: {
-      type: "MultiPolygon",
-      coordinates: polygons
+      type: 'GeometryCollection',
+      geometries: polygons
     }
   };
 }
