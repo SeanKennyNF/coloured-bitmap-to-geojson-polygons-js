@@ -1,0 +1,17 @@
+export enum BitsPerPixel {
+  ZERO = 'ZERO',
+  MONOCHROME_PALETTE = 'MONOCHROME_PALETTE',
+  FOUR_BIT_PALLETIZED = 'FOUR_BIT_PALLETIZED',
+  EIGHT_BIT_PALLETIZED = 'EIGHT_BIT_PALLETIZED',
+  SIXTEEN_BIT_RGB = 'SIXTEEN_BIT_RGB',
+  TWENTY_FOUR_BIT_RGB = 'TWENTY_FOUR_BIT_RGB',
+}
+
+export const hexValueToBitsPerPixel: Record<number, BitsPerPixel | undefined> = {
+  0: BitsPerPixel.ZERO,
+  1: BitsPerPixel.MONOCHROME_PALETTE,
+  4: BitsPerPixel.FOUR_BIT_PALLETIZED,
+  8: BitsPerPixel.EIGHT_BIT_PALLETIZED,
+  16: BitsPerPixel.SIXTEEN_BIT_RGB,
+  24: BitsPerPixel.TWENTY_FOUR_BIT_RGB,
+}

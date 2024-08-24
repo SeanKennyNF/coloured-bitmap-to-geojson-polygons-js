@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
+    "declaration": true,
     "rootDirs": ["src"],
-    "outDir": "public/dist",
+    "outDir": "build",
     "lib": ["es2022"],
     "strict": true,
     "target": "es2022",
@@ -9,5 +10,8 @@
     "moduleResolution": "node",
     "esModuleInterop": true,
     "types": ["node"]
-  }
+  },
+  "include": [
+    "src/**/*"
+  ]
 }

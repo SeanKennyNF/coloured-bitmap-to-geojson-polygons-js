@@ -2,18 +2,23 @@
     "name": "coloured-bitmap-to-geojson-polygons-js",
     "version": "0.0.0",
     "description": "A library for convering colour segmented bitmaps to a GeoJSON file of polygons.",
-    "main": "index.js",
     "scripts": {
       "build": "tsc",
-      "test": "echo \"Error: no test specified\" && exit 1"
+      "test": "vitest"
     },
+    "files": [
+      "build"
+    ],
+    "main": "./build/index.js",
+    "types": "./build/index.d.ts",
     "author": "Sean Kenny",
     "type": "module",
     "dependencies": {
     },
     "devDependencies": {
       "@types/node": "^20.14.10",
-      "typescript": "^5.5.4"
+      "typescript": "^5.5.4",
+      "vitest": "^2.0.5"
     },
     "engines": {
       "node": "^20"

@@ -1,13 +1,1 @@
-interface ExportColouredBitmapToGeoJSONPolygonsInput {
-  //
-}
-
-interface ExportColouredBitmapToGeoJSONPolygonsOutput {
-  //
-}
-
-export const exportColouredBitmapToGeoJSONPolygons = (
-  input: ExportColouredBitmapToGeoJSONPolygonsInput
-): ExportColouredBitmapToGeoJSONPolygonsOutput => {
-  return {};
-}
+export { exportColouredBitmapToGeoJSONPolygons, ExportColouredBitmapToGeoJSONPolygonsInput, ExportColouredBitmapToGeoJSONPolygonsOutput } from './export-coloured-bitmap-to-geojson-polygons.js'
