@@ -12,7 +12,8 @@ test('the exportColouredBitmapToGeoJSONPolygons function is callable.', { timeou
       'provinces.bmp'
     ),
     bitmapWidthPx: 5632,
-    bitmapHeightPx: 2048
+    bitmapHeightPx: 2048,
+    colourToPropertiesMap: {}
   }
   const output = await exportColouredBitmapToGeoJSONPolygons(input);
 
