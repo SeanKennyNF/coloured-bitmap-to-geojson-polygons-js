@@ -1,21 +1,19 @@
-import { Polygon } from "./geojson-types";
-
-interface ConsolidateImageDataIntoPolygonsInput<TData extends Record<string, unknown>> {
-  colourToPropertiesMap: Record<string, TData>;
+interface SegmentDataIntoPolygonCellCollectionInput {
   imageData: Array<Array<{
     red: number;
     green: number;
     blue: number;
   }>>;
-  allColoursPresent: Array<{
+}
+
+interface SegmentDataIntoPolygonCellCollectionOutput {
+  polygonCellCollection: Array<Array<{
     red: number;
     green: number;
     blue: number;
-  }>
-}
-
-interface ConsolidateImageDataIntoPolygonsOutput<TData extends Record<string, unknown>> {
-  polygons: Array<Polygon<TData>>;
+    rowIndex: number;
+    colIndex: number;
+  }>>;
 }
 
 interface EnqueueCellIfAppropriateInput {
@@ -156,24 +154,31 @@ export const enqueueCellBelowIfAppropriateInput = (input: EnqueueCellIfAppropria
     processedFlag: cellBelow.processedFlag
   });
 }
-export const consolidateImageDataIntoPolygons = <TData extends Record<string, unknown>>(
-  input: ConsolidateImageDataIntoPolygonsInput<TData>
-): ConsolidateImageDataIntoPolygonsOutput<TData> => {
-  if(input.imageData.length === 0) {
-    return { polygons: [] };
-  }
 
+export const segmentDataIntoPolygonCellCollection = (
+  input: SegmentDataIntoPolygonCellCollectionInput
+): SegmentDataIntoPolygonCellCollectionOutput => {
   const imageDataWithProcessedFlag = input.imageData
     .map((row) => row
       .map((cell) => ({ red: cell.red, green: cell.green, blue: cell.blue, processedFlag: false }))
     )
-  
+
+  if(imageDataWithProcessedFlag.length === 0) {
+    return { polygonCellCollection: [] };
+  }
+
   const totalRowCount = imageDataWithProcessedFlag.length;
   const totalColCount = imageDataWithProcessedFlag[0].length;
   
   let currentRowIndex = 0;
   let currentColIndex = 0;
-  let polygons: Array<Polygon<TData>> = []
+  let polygonCellCollection: Array<Array<{
+    red: number;
+    green: number;
+    blue: number;
+    rowIndex: number;
+    colIndex: number;
+  }>> = []
 
   while(currentRowIndex < totalRowCount) {
     while(currentColIndex < totalColCount) {
@@ -239,7 +244,9 @@ export const consolidateImageDataIntoPolygons = <TData extends Record<string, un
         enqueueCellToTheRightIfAppropriateInput(enqueuingFunctionInput);
         enqueueCellAboveIfAppropriateInput(enqueuingFunctionInput);
         enqueueCellBelowIfAppropriateInput(enqueuingFunctionInput);
-      }  
+      }
+      
+      polygonCellCollection.push(cellsForPolygon);
 
       currentColIndex++;
     }
@@ -249,6 +256,6 @@ export const consolidateImageDataIntoPolygons = <TData extends Record<string, un
   }
 
   return {
-    polygons
+    polygonCellCollection
   }
 }

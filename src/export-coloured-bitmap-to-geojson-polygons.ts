@@ -4,7 +4,7 @@ import { OutputGeoJSON } from "./geojson-types.js";
 import { hexStringtoAsciiString, hexStringToNumericValue } from "./hex-helpers.js";
 import { extractImageDataFromHexBmpData } from "./image-data.js";
 import { determineBitmapWidthAndHeight } from "./bitmap-width-and-height.js";
-import { consolidateImageDataIntoPolygons } from "./image-data-to-polygons.js";
+import { consolidateImageDataIntoPolygons } from "./image-data-to-polygons/image-data-to-polygons.js";
 
 export interface ExportColouredBitmapToGeoJSONPolygonsInput<TData extends Record<string, unknown>> {
   inputFilePath: string;
