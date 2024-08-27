@@ -85,7 +85,7 @@ export const consolidatePolygonCellsIntoCornerIndexPolygonInput = (
       (cellToTheBottomRightOfCorner ? 1 : 0);
 
     if(numberOfCellsAdjacentToCornerWhichArePartOfPolygon === 0) {
-      throw Error('Encountered invalid polygon. This is likely indicative of a bug within the library. Please report to the maintainer along with the bmp file that failed to parse.')
+      throw Error('Encountered invalid polygon. This is likely indicative of a bug within the library. Please report to the author along with the bmp file that failed to parse along with a passive aggressive statement about his lack of care for the library or lack of programming skill.')
     } else if(numberOfCellsAdjacentToCornerWhichArePartOfPolygon === 1) {
       if(cellToTheBottomRightOfCorner !== undefined) {
         cornersForPolygon.push([ currentCornerGridColIndex, currentCornerGridRowIndex ]);
@@ -226,7 +226,7 @@ export const consolidatePolygonCellsIntoCornerIndexPolygonInput = (
         continue;
       }
     } else {
-      throw Error('Encountered invalid polygon. This is likely indicative of a bug within the library. Please report to the maintainer along with the bmp file that failed to parse.')
+      throw Error('Encountered invalid polygon. This is likely indicative of a bug within the library. Please report to the author along with the bmp file that failed to parse along with a passive aggressive statement about his lack of care for the library or lack of programming skill.')
     }
   }
 

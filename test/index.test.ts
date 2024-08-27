@@ -8,8 +8,6 @@ const testCases = [
   //{
   //  inputFilename: 'provinces.bmp',
   //  colourToPropertiesMap: {},
-  //  bitmapWidthPx: 5632,
-  //  bitmapHeightPx: 2048,
   //  artifactFilename: 'provinces-geojson-artifact.json',
   //  geoJsonExpectedOutputFilename: 'provinces-expected-geojson-output.json',
   //  metadataExpectedOutputFilename: 'provinces-expected-bmp-file-metadata.json',
@@ -34,15 +32,15 @@ const testCases = [
     geoJsonExpectedOutputFilename: 'bmp-24-expected-geojson-output.json',
     metadataExpectedOutputFilename: 'bmp-24-expected-bmp-file-metadata.json',
   },
-  //{
-  //  inputFilename: 'provinces-subset-1.bmp',
-  //  colourToPropertiesMap: {},
-  //  bitmapWidthPx: 32,
-  //  bitmapHeightPx: 31,
-  //  artifactFilename: 'provinces-subset-1-geojson-artifact.json',
-  //  geoJsonExpectedOutputFilename: 'provinces-subset-1-expected-geojson-output.json',
-  //  metadataExpectedOutputFilename: 'provinces-subset-1-expected-bmp-file-metadata.json',
-  //},
+  {
+    inputFilename: 'provinces-subset-1.bmp',
+    colourToPropertiesMap: {},
+    bitmapWidthPx: 32,
+    bitmapHeightPx: 31,
+    artifactFilename: 'provinces-subset-1-geojson-artifact.json',
+    geoJsonExpectedOutputFilename: 'provinces-subset-1-expected-geojson-output.json',
+    metadataExpectedOutputFilename: 'provinces-subset-1-expected-bmp-file-metadata.json',
+  },
   //{
   //  inputFilename: 'provinces-subset-2.bmp',
   //  colourToPropertiesMap: {},
@@ -97,5 +95,4 @@ test.each(testCases)('exportColouredBitmapToGeoJSONPolygons should produce the r
     bmpFileMetadata: expectedOutputMetadata,
     outputGeoJSON: expectedOutputGeoJSON
   });
-  //expect(output.bmpFileMetadata).toStrictEqual(expectedOutputMetadata);
 })

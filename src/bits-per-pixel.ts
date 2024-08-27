@@ -5,6 +5,7 @@ export enum BitsPerPixel {
   EIGHT_BIT_PALLETIZED = 'EIGHT_BIT_PALLETIZED',
   SIXTEEN_BIT_RGB = 'SIXTEEN_BIT_RGB',
   TWENTY_FOUR_BIT_RGB = 'TWENTY_FOUR_BIT_RGB',
+  THIRTY_TWO_BIT_ALPHA_PLUS_RGB = 'THIRTY_TWO_BIT_ALPHA_PLUS_RGB'
 }
 
 export const hexValueToBitsPerPixel: Record<number, BitsPerPixel | undefined> = {
@@ -14,4 +15,5 @@ export const hexValueToBitsPerPixel: Record<number, BitsPerPixel | undefined> = 
   8: BitsPerPixel.EIGHT_BIT_PALLETIZED,
   16: BitsPerPixel.SIXTEEN_BIT_RGB,
   24: BitsPerPixel.TWENTY_FOUR_BIT_RGB,
+  32: BitsPerPixel.THIRTY_TWO_BIT_ALPHA_PLUS_RGB
 }

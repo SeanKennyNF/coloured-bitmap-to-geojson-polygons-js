@@ -2,7 +2,7 @@ import { readFile } from "fs/promises";
 import { BmpFileMetadata, extractColourMapFromHexBmpData, extractHeaderFromHexBmpData, extractInfoHeaderFromHexBmpData } from "./bmp-file-metadata.js";
 import { OutputGeoJSON } from "./geojson-types.js";
 import { hexStringtoAsciiString, hexStringToNumericValue } from "./hex-helpers.js";
-import { extractImageDataFromHexBmpData } from "./image-data.js";
+import { extractImageDataFromHexBmpData } from "./image-data/image-data.js";
 import { consolidateImageDataIntoPolygons } from "./image-data-to-polygons/image-data-to-polygons.js";
 
 export interface ExportColouredBitmapToGeoJSONPolygonsInput<TData extends Record<string, unknown>> {
@@ -20,15 +20,23 @@ export const exportColouredBitmapToGeoJSONPolygons = async<TData extends Record<
   const bmpData = await readFile(input.inputFilePath);
 
   const hexBmpData = bmpData.toString('hex');
-  const { header } = extractHeaderFromHexBmpData({ hexBmpData });
-  const { infoHeader } = extractInfoHeaderFromHexBmpData({ hexBmpData });
-  const { colourMap, bytesUsedForColourMap } = extractColourMapFromHexBmpData({ hexBmpData, infoHeader });
+  const { header, headerSizeBytes } = extractHeaderFromHexBmpData({ hexBmpData });
+  const { infoHeader, infoHeaderSizeBytes } = extractInfoHeaderFromHexBmpData({ hexBmpData, headerSizeBytes });
+  const { colourMap, colourMapSizeBytes } = extractColourMapFromHexBmpData({
+    hexBmpData,
+    infoHeader,
+    headerSizeBytes,
+    infoHeaderSizeBytes
+  });
   const { imageData, allColoursPresent } = extractImageDataFromHexBmpData({
     hexBmpData,
     colourMap,
     bitmapWidthPx: infoHeader.bmpWidthPx,
     bitmapHeightPx: infoHeader.bmpHeightPx,
-    bytesUsedForColourMap
+    bitsPerPixel: infoHeader.bitsPerPixel,
+    headerSizeBytes,
+    infoHeaderSizeBytes,
+    colourMapSizeBytes
   });
   const { polygons } = consolidateImageDataIntoPolygons({
     imageData,

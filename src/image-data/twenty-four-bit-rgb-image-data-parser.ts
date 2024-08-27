@@ -1,32 +1,11 @@
-import { hexStringToNumericValue } from "./hex-helpers.js";
+import { hexStringToNumericValue } from "../hex-helpers.js";
+import { ExtractImageDataFromHexBmpDataInput, ExtractImageDataFromHexBmpDataOutput } from "./image-data";
 
-interface ExtractImageDataFromHexBmpDataInput {
-  hexBmpData: string,
-  colourMap: Record<number, {
-    red: number;
-    green: number;
-    blue: number;
-  }>,
-  bitmapWidthPx: number,
-  bitmapHeightPx: number,
-  bytesUsedForColourMap: number
-}
+type ParseTwentyFourBitRgbImageDataInput = Omit<ExtractImageDataFromHexBmpDataInput, 'bitsPerPixel'>;
+type ParseTwentyFourBitRgbImageDataOutput = ExtractImageDataFromHexBmpDataOutput;
 
-interface ExtractImageDataFromHexBmpDataOutput {
-  imageData: Array<Array<{
-    red: number;
-    green: number;
-    blue: number;
-  }>>
-  allColoursPresent: Array<{
-    red: number;
-    green: number;
-    blue: number;
-  }>
-}
-
-export const extractImageDataFromHexBmpData = (input: ExtractImageDataFromHexBmpDataInput): ExtractImageDataFromHexBmpDataOutput => {
-  const startIndexInHexBmpData = (input.bytesUsedForColourMap * 4) + 108;
+export const parseTwentyFourBitRgbImageData = (input: ParseTwentyFourBitRgbImageDataInput): ParseTwentyFourBitRgbImageDataOutput => {
+  const startIndexInHexBmpData = (input.headerSizeBytes + input.infoHeaderSizeBytes + input.colourMapSizeBytes) * 2;
   const endIndexInHexBmpData = input.hexBmpData.length;
 
   let imageData: ExtractImageDataFromHexBmpDataOutput['imageData']  = [];

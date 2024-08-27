@@ -41,6 +41,7 @@ interface ExtractHeaderFromHexBmpDataInput {
 
 interface ExtractHeaderFromHexBmpDataOutput {
   header: BmpFileMetadataHeader;
+  headerSizeBytes: 14;
 }
 
 export const extractHeaderFromHexBmpData = (input: ExtractHeaderFromHexBmpDataInput): ExtractHeaderFromHexBmpDataOutput => ({
@@ -49,41 +50,52 @@ export const extractHeaderFromHexBmpData = (input: ExtractHeaderFromHexBmpDataIn
     fileSizeBytes: hexStringToNumericValue(input.hexBmpData.slice(4, 12)),
     reservedField: input.hexBmpData.slice(12, 20),
     dataOffsetBytes: hexStringToNumericValue(input.hexBmpData.slice(20, 28)),
-  }
+  },
+  headerSizeBytes: 14
 });
 
 interface ExtractInfoHeaderFromHexBmpDataInput {
-  hexBmpData: string
+  hexBmpData: string;
+  headerSizeBytes: 14;
 }
 
 interface ExtractInfoHeaderFromHexBmpDataOutput {
   infoHeader: BmpFileMetadataInfoHeader;
+  infoHeaderSizeBytes: number;
 }
 
-export const extractInfoHeaderFromHexBmpData = (input: ExtractInfoHeaderFromHexBmpDataInput): ExtractInfoHeaderFromHexBmpDataOutput => ({
-  infoHeader: {
-    infoHeaderSizeBytes: hexStringToNumericValue(input.hexBmpData.slice(28, 36)),
-    bmpWidthPx: hexStringToNumericValue(input.hexBmpData.slice(36, 44)),
-    bmpHeightPx: hexStringToNumericValue(input.hexBmpData.slice(44, 52)),
-    numberOfPlanes: hexStringToNumericValue(input.hexBmpData.slice(52, 56)),
-    bitsPerPixel: hexValueToBitsPerPixel[hexStringToNumericValue(input.hexBmpData.slice(56, 60))] ?? 'UNKNOWN',
-    compressionType: hexValueToCompressionType[hexStringToNumericValue(input.hexBmpData.slice(60, 68))] ?? 'UNKNOWN',
-    imageCompressedSizeBytes: hexStringToNumericValue(input.hexBmpData.slice(68, 76)),
-    horizontalPixelsPerMetre: hexStringToNumericValue(input.hexBmpData.slice(76, 84)),
-    verticalPixelsPerMetre: hexStringToNumericValue(input.hexBmpData.slice(84, 92)),
-    numberOfColoursUsed: hexStringToNumericValue(input.hexBmpData.slice(92, 100)),
-    numberOfImportantColours: hexStringToNumericValue(input.hexBmpData.slice(100, 108)),
+export const extractInfoHeaderFromHexBmpData = (input: ExtractInfoHeaderFromHexBmpDataInput): ExtractInfoHeaderFromHexBmpDataOutput => {
+  const startIndex = input.headerSizeBytes * 2;
+  const infoHeaderSizeBytes = hexStringToNumericValue(input.hexBmpData.slice(startIndex, startIndex + 8));
+
+  return {
+    infoHeader: {
+      infoHeaderSizeBytes,
+      bmpWidthPx: hexStringToNumericValue(input.hexBmpData.slice(startIndex + 8, startIndex + 16)),
+      bmpHeightPx: hexStringToNumericValue(input.hexBmpData.slice(startIndex + 16, startIndex + 24)),
+      numberOfPlanes: hexStringToNumericValue(input.hexBmpData.slice(startIndex + 24, startIndex + 28)),
+      bitsPerPixel: hexValueToBitsPerPixel[hexStringToNumericValue(input.hexBmpData.slice(startIndex + 28, startIndex + 32))] ?? 'UNKNOWN',
+      compressionType: hexValueToCompressionType[hexStringToNumericValue(input.hexBmpData.slice(startIndex + 32, startIndex + 40))] ?? 'UNKNOWN',
+      imageCompressedSizeBytes: hexStringToNumericValue(input.hexBmpData.slice(startIndex + 40, startIndex + 48)),
+      horizontalPixelsPerMetre: hexStringToNumericValue(input.hexBmpData.slice(startIndex + 48, startIndex + 56)),
+      verticalPixelsPerMetre: hexStringToNumericValue(input.hexBmpData.slice(startIndex + 56, startIndex + 64)),
+      numberOfColoursUsed: hexStringToNumericValue(input.hexBmpData.slice(startIndex + 64, startIndex + 72)),
+      numberOfImportantColours: hexStringToNumericValue(input.hexBmpData.slice(startIndex + 72, startIndex + 80)),
+    },
+    infoHeaderSizeBytes
   }
-})
+}
 
 interface ExtractColourMapFromHexBmpDataInput {
   infoHeader: Pick<BmpFileMetadataInfoHeader, 'bitsPerPixel'|'numberOfColoursUsed'>;
+  infoHeaderSizeBytes: number;
+  headerSizeBytes: 14;
   hexBmpData: string
 }
 
 interface ExtractColourMapFromHexBmpDataOutput {
   colourMap: BmpFileColourMap;
-  bytesUsedForColourMap: number;
+  colourMapSizeBytes: number;
 }
 
 export const extractColourMapFromHexBmpData = (input: ExtractColourMapFromHexBmpDataInput): ExtractColourMapFromHexBmpDataOutput => {
@@ -99,13 +111,13 @@ export const extractColourMapFromHexBmpData = (input: ExtractColourMapFromHexBmp
   ) {
     return {
       colourMap: {},
-      bytesUsedForColourMap: 0
+      colourMapSizeBytes: 0
     }
   }
 
-  const bytesUsedForColourMap = 4 * numberOfColoursUsed;
-  const startIndexInHexBmpData = 108;
-  const endIndexInHexBmpData = startIndexInHexBmpData + bytesUsedForColourMap;
+  const colourMapSizeBytes = 4 * numberOfColoursUsed;
+  const startIndexInHexBmpData = (input.infoHeaderSizeBytes + input.headerSizeBytes) * 2;
+  const endIndexInHexBmpData = startIndexInHexBmpData + colourMapSizeBytes;
 
   let currentIndex = 0;
   let currentIndexInHexBmpData = startIndexInHexBmpData;
@@ -132,6 +144,6 @@ export const extractColourMapFromHexBmpData = (input: ExtractColourMapFromHexBmp
 
   return {
     colourMap,
-    bytesUsedForColourMap
+    colourMapSizeBytes
   }
 }

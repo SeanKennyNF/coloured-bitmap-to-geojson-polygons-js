@@ -38,7 +38,7 @@ export const convertCornerIndexPolygonIntoGeoJSONPolygon = <TData extends Record
       coordinates: [
         input.cornersForPolygon.map(([cornerColIndex, cornerRowIndex]) => [
           -180 + ((cornerColIndex / input.bitmapWidthPx ) * 360),
-          -90 + ((cornerRowIndex / input.bitmapHeightPx ) * 180),
+          90 - ((cornerRowIndex / input.bitmapHeightPx ) * 180),
         ])
       ],
       properties: {
