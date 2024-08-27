@@ -37,6 +37,7 @@ export const extractImageDataFromHexBmpData = (input: ExtractImageDataFromHexBmp
 
   while (currentRowIndex < input.bitmapHeightPx) {
     let currentRow: ExtractImageDataFromHexBmpDataOutput['imageData'][number] = [];
+    let bytesReadInCurrentRow = 0;
 
     while(currentColumnIndex < input.bitmapWidthPx) {
       if(currentIndexInHexBmpData >= endIndexInHexBmpData) {
@@ -46,9 +47,9 @@ export const extractImageDataFromHexBmpData = (input: ExtractImageDataFromHexBmp
           blue: 0,
         })
       } else {
-        const currentCellRed = hexStringToNumericValue(input.hexBmpData.slice(currentIndexInHexBmpData, currentIndexInHexBmpData + 2));
+        const currentCellBlue = hexStringToNumericValue(input.hexBmpData.slice(currentIndexInHexBmpData, currentIndexInHexBmpData + 2));
         const currentCellGreen = hexStringToNumericValue(input.hexBmpData.slice(currentIndexInHexBmpData, currentIndexInHexBmpData + 4));
-        const currentCellBlue = hexStringToNumericValue(input.hexBmpData.slice(currentIndexInHexBmpData, currentIndexInHexBmpData + 6));
+        const currentCellRed = hexStringToNumericValue(input.hexBmpData.slice(currentIndexInHexBmpData, currentIndexInHexBmpData + 6));
 
         currentRow.push({
           red: currentCellRed,
@@ -56,12 +57,17 @@ export const extractImageDataFromHexBmpData = (input: ExtractImageDataFromHexBmp
           blue: currentCellBlue,
         })
         currentIndexInHexBmpData += 6;
+        bytesReadInCurrentRow += 6;
       }
       
       currentColumnIndex++;
     }
 
-    imageData.push(currentRow);
+    imageData.unshift(currentRow);
+
+    if(bytesReadInCurrentRow % 4 !== 0) {
+      currentIndexInHexBmpData += (4 - (bytesReadInCurrentRow % 4));
+    }
 
     currentColumnIndex = 0;
     currentRowIndex++;

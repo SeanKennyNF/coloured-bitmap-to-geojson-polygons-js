@@ -40,6 +40,8 @@ export const exportColouredBitmapToGeoJSONPolygons = async<TData extends Record<
   });
   const { polygons } = consolidateImageDataIntoPolygons({
     imageData,
+    bitmapWidthPx,
+    bitmapHeightPx,
     allColoursPresent,
     colourToPropertiesMap: input.colourToPropertiesMap
   }) 

@@ -7,6 +7,7 @@ import { writeFile } from 'fs/promises';
 const testCases = [
   //{
   //  inputFilename: 'provinces.bmp',
+  //  colourToPropertiesMap: {},
   //  bitmapWidthPx: 5632,
   //  bitmapHeightPx: 2048,
   //  artifactFilename: 'provinces-geojson-artifact.json',
@@ -15,22 +16,36 @@ const testCases = [
   //},
   {
     inputFilename: 'bmp-24.bmp',
+    colourToPropertiesMap: {
+      "#ff0000": {
+        zone: "The red zone"
+      },
+      "#00ff00": {
+        zone: "The green zone"
+      },
+      "#0000ff": {
+        // Mandatory viewing: https://www.youtube.com/watch?v=j4aLwDY0R_U
+        zone: "The blue zone"
+      },
+    },
     bitmapWidthPx: 200,
     bitmapHeightPx: 200,
-    artifactFilename: 'provinces-geojson-artifact.json',
+    artifactFilename: 'bmp-24-geojson-artifact.json',
     geoJsonExpectedOutputFilename: 'bmp-24-expected-geojson-output.json',
     metadataExpectedOutputFilename: 'bmp-24-expected-bmp-file-metadata.json',
   },
-  {
-    inputFilename: 'provinces-subset-1.bmp',
-    bitmapWidthPx: 32,
-    bitmapHeightPx: 31,
-    artifactFilename: 'provinces-subset-1-geojson-artifact.json',
-    geoJsonExpectedOutputFilename: 'provinces-subset-1-expected-geojson-output.json',
-    metadataExpectedOutputFilename: 'provinces-subset-1-expected-bmp-file-metadata.json',
-  },
+  //{
+  //  inputFilename: 'provinces-subset-1.bmp',
+  //  colourToPropertiesMap: {},
+  //  bitmapWidthPx: 32,
+  //  bitmapHeightPx: 31,
+  //  artifactFilename: 'provinces-subset-1-geojson-artifact.json',
+  //  geoJsonExpectedOutputFilename: 'provinces-subset-1-expected-geojson-output.json',
+  //  metadataExpectedOutputFilename: 'provinces-subset-1-expected-bmp-file-metadata.json',
+  //},
   //{
   //  inputFilename: 'provinces-subset-2.bmp',
+  //  colourToPropertiesMap: {},
   //  bitmapWidthPx: 480,
   //  bitmapHeightPx: 480,
   //  artifactFilename: 'provinces-subset-2-geojson-artifact.json',
@@ -40,7 +55,7 @@ const testCases = [
 ]
 
 test.each(testCases)('exportColouredBitmapToGeoJSONPolygons should produce the right output for $inputFilename', { timeout: 50000}, async(
-  { inputFilename, bitmapWidthPx, bitmapHeightPx, artifactFilename, geoJsonExpectedOutputFilename, metadataExpectedOutputFilename}
+  { inputFilename, bitmapWidthPx, bitmapHeightPx, artifactFilename, geoJsonExpectedOutputFilename, metadataExpectedOutputFilename, colourToPropertiesMap }
 ) => {
   const input = {
     inputFilePath: path.join(
@@ -50,7 +65,7 @@ test.each(testCases)('exportColouredBitmapToGeoJSONPolygons should produce the r
     ),
     bitmapWidthPx,
     bitmapHeightPx,
-    colourToPropertiesMap: {}
+    colourToPropertiesMap
   }
 
   const output = await exportColouredBitmapToGeoJSONPolygons(input);
@@ -78,9 +93,8 @@ test.each(testCases)('exportColouredBitmapToGeoJSONPolygons should produce the r
 
   await writeFile(pathToWriteArtifactTo, outputGeoJSONToCreateArtifact, 'utf8');
 
-  //expect(output).toStrictEqual({
-  //  bmpFileMetadata: expectedOutputMetadata,
-  //  outputGeoJSON: expectedOutputGeoJSON
-  //});
-  expect(output.bmpFileMetadata).toStrictEqual(expectedOutputMetadata);
+  expect(output).toStrictEqual({
+    bmpFileMetadata: expectedOutputMetadata,
+    outputGeoJSON: expectedOutputGeoJSON
+  });
 })

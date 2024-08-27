@@ -246,7 +246,9 @@ export const segmentDataIntoPolygonCellCollection = (
         enqueueCellBelowIfAppropriateInput(enqueuingFunctionInput);
       }
       
-      polygonCellCollection.push(cellsForPolygon);
+      if(cellsForPolygon.length > 0) {
+        polygonCellCollection.push(cellsForPolygon);
+      }
 
       currentColIndex++;
     }
