@@ -7,7 +7,7 @@ export const hexStringToNumericValue = (hexString: string): number => {
   const bigEndianHexString = hexString
     .match(/..?/g)
     ?.reverse()
-    ?.join() ?? '';
+    ?.join('') ?? '';
 
   return parseInt(bigEndianHexString, 16);
 }

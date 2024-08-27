@@ -48,8 +48,8 @@ export const extractImageDataFromHexBmpData = (input: ExtractImageDataFromHexBmp
         })
       } else {
         const currentCellBlue = hexStringToNumericValue(input.hexBmpData.slice(currentIndexInHexBmpData, currentIndexInHexBmpData + 2));
-        const currentCellGreen = hexStringToNumericValue(input.hexBmpData.slice(currentIndexInHexBmpData, currentIndexInHexBmpData + 4));
-        const currentCellRed = hexStringToNumericValue(input.hexBmpData.slice(currentIndexInHexBmpData, currentIndexInHexBmpData + 6));
+        const currentCellGreen = hexStringToNumericValue(input.hexBmpData.slice(currentIndexInHexBmpData + 2, currentIndexInHexBmpData + 4));
+        const currentCellRed = hexStringToNumericValue(input.hexBmpData.slice(currentIndexInHexBmpData + 4, currentIndexInHexBmpData + 6));
 
         currentRow.push({
           red: currentCellRed,

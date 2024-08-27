@@ -97,4 +97,5 @@ test.each(testCases)('exportColouredBitmapToGeoJSONPolygons should produce the r
     bmpFileMetadata: expectedOutputMetadata,
     outputGeoJSON: expectedOutputGeoJSON
   });
+  //expect(output.bmpFileMetadata).toStrictEqual(expectedOutputMetadata);
 })
