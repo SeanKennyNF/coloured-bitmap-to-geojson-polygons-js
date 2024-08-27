@@ -89,26 +89,26 @@ export const consolidatePolygonCellsIntoCornerIndexPolygonInput = (
     } else if(numberOfCellsAdjacentToCornerWhichArePartOfPolygon === 1) {
       if(cellToTheBottomRightOfCorner !== undefined) {
         cornersForPolygon.push([ currentCornerGridColIndex, currentCornerGridRowIndex ]);
+        currentCornerGridRowIndex++;
+        lastMove = LastMove.DOWNWARDS;
+        continue;
+      }
+      if(cellToTheTopRightOfCorner !== undefined) {
+        cornersForPolygon.push([ currentCornerGridColIndex, currentCornerGridRowIndex ]);
         currentCornerGridColIndex++;
         lastMove = LastMove.TO_THE_RIGHT;
         continue;
       }
-      if(cellToTheTopRightOfCorner !== undefined) {
+      if(cellToTheTopLeftOfCorner !== undefined) {
         cornersForPolygon.push([ currentCornerGridColIndex, currentCornerGridRowIndex ]);
         currentCornerGridRowIndex--;
         lastMove = LastMove.UPWARDS;
         continue;
       }
-      if(cellToTheTopLeftOfCorner !== undefined) {
+      if(cellToTheBottomLeftOfCorner !== undefined) {
         cornersForPolygon.push([ currentCornerGridColIndex, currentCornerGridRowIndex ]);
         currentCornerGridColIndex--;
         lastMove = LastMove.TO_THE_LEFT;
-        continue;
-      }
-      if(cellToTheBottomLeftOfCorner !== undefined) {
-        cornersForPolygon.push([ currentCornerGridColIndex, currentCornerGridRowIndex ]);
-        currentCornerGridRowIndex++;
-        lastMove = LastMove.DOWNWARDS;
         continue;
       }
       throw new Error('Unexpected state with one adjacent cell which is part of the polygon.');
@@ -117,32 +117,32 @@ export const consolidatePolygonCellsIntoCornerIndexPolygonInput = (
         cellToTheTopLeftOfCorner !== undefined &&
         cellToTheBottomLeftOfCorner !== undefined
       ) {
-        currentCornerGridRowIndex++;
-        lastMove = LastMove.DOWNWARDS;
+        currentCornerGridRowIndex--;
+        lastMove = LastMove.UPWARDS;
         continue;
       }
       if(
         cellToTheTopRightOfCorner !== undefined &&
         cellToTheBottomRightOfCorner !== undefined
       ) {
-        currentCornerGridRowIndex--;
-        lastMove = LastMove.UPWARDS;
+        currentCornerGridRowIndex++;
+        lastMove = LastMove.DOWNWARDS;
         continue;
       }
       if(
         cellToTheTopLeftOfCorner !== undefined &&
         cellToTheTopRightOfCorner !== undefined
       ) {
-        currentCornerGridColIndex--;
-        lastMove = LastMove.TO_THE_LEFT;
+        currentCornerGridColIndex++;
+        lastMove = LastMove.TO_THE_RIGHT;
         continue;
       }
       if(
         cellToTheBottomLeftOfCorner !== undefined &&
         cellToTheBottomRightOfCorner !== undefined
       ) {
-        currentCornerGridColIndex++;
-        lastMove = LastMove.TO_THE_RIGHT;
+        currentCornerGridColIndex--;
+        lastMove = LastMove.TO_THE_LEFT;
         continue;
       }
       if(
@@ -165,25 +165,6 @@ export const consolidatePolygonCellsIntoCornerIndexPolygonInput = (
         //    and the centre of both those shapes have cells which are part of the polygon that are further to the
         //    left and would be considered the leftmosttopmost point.
         //    Basically, so long as that leftmost topmost logic stays there I feel we're good.
-        if(lastMove === LastMove.UPWARDS) {
-          cornersForPolygon.push([ currentCornerGridColIndex, currentCornerGridRowIndex ]);
-          currentCornerGridColIndex++;
-          lastMove = LastMove.TO_THE_RIGHT;
-          continue;
-        }
-        if(lastMove === LastMove.DOWNWARDS) {
-          cornersForPolygon.push([ currentCornerGridColIndex, currentCornerGridRowIndex ]);
-          currentCornerGridColIndex--;
-          lastMove = LastMove.TO_THE_LEFT;
-          continue;
-        }
-
-        throw new Error('Invalid last move for corned with two adjacent cells which are part of the polgyon');
-      }
-      if(
-        cellToTheBottomLeftOfCorner !== undefined &&
-        cellToTheTopRightOfCorner !== undefined
-      ) {
         if(lastMove === LastMove.TO_THE_LEFT) {
           cornersForPolygon.push([ currentCornerGridColIndex, currentCornerGridRowIndex ]);
           currentCornerGridRowIndex--;
@@ -199,30 +180,49 @@ export const consolidatePolygonCellsIntoCornerIndexPolygonInput = (
 
         throw new Error('Invalid last move for corned with two adjacent cells which are part of the polgyon');
       }
+      if(
+        cellToTheBottomLeftOfCorner !== undefined &&
+        cellToTheTopRightOfCorner !== undefined
+      ) {
+        if(lastMove === LastMove.DOWNWARDS) {
+          cornersForPolygon.push([ currentCornerGridColIndex, currentCornerGridRowIndex ]);
+          currentCornerGridColIndex++;
+          lastMove = LastMove.TO_THE_RIGHT;
+          continue;
+        }
+        if(lastMove === LastMove.UPWARDS) {
+          cornersForPolygon.push([ currentCornerGridColIndex, currentCornerGridRowIndex ]);
+          currentCornerGridColIndex--;
+          lastMove = LastMove.TO_THE_LEFT;
+          continue;
+        }
+
+        throw new Error('Invalid last move for corned with two adjacent cells which are part of the polgyon');
+      }
       throw new Error('Unexpected state with two adjacent cells which are part of the polygon.');
     } else if(numberOfCellsAdjacentToCornerWhichArePartOfPolygon === 3) {
       if(cellToTheBottomRightOfCorner === undefined) {
-        cornersForPolygon.push([ currentCornerGridColIndex, currentCornerGridRowIndex ]);
-        currentCornerGridRowIndex++;
-        lastMove = LastMove.DOWNWARDS;
-        continue;
-      }
-      if(cellToTheTopLeftOfCorner === undefined) {
-        cornersForPolygon.push([ currentCornerGridColIndex, currentCornerGridRowIndex ]);
-        currentCornerGridRowIndex--;
-        lastMove = LastMove.UPWARDS;
-        continue;
-      }
-      if(cellToTheTopRightOfCorner === undefined) {
         cornersForPolygon.push([ currentCornerGridColIndex, currentCornerGridRowIndex ]);
         currentCornerGridColIndex++;
         lastMove = LastMove.TO_THE_RIGHT;
         continue;
       }
-      if(cellToTheBottomLeftOfCorner === undefined) {
+      if(cellToTheTopLeftOfCorner === undefined) {
         cornersForPolygon.push([ currentCornerGridColIndex, currentCornerGridRowIndex ]);
         currentCornerGridColIndex--;
         lastMove = LastMove.TO_THE_LEFT;
+        continue;
+      }
+      if(cellToTheTopRightOfCorner === undefined) {
+        cornersForPolygon.push([ currentCornerGridColIndex, currentCornerGridRowIndex ]);
+        currentCornerGridRowIndex--;
+        lastMove = LastMove.UPWARDS;
+        continue;
+      }
+      if(cellToTheBottomLeftOfCorner === undefined) {
+        cornersForPolygon.push([ currentCornerGridColIndex, currentCornerGridRowIndex ]);
+        currentCornerGridRowIndex++;
+        lastMove = LastMove.DOWNWARDS;
         continue;
       }
     } else {
