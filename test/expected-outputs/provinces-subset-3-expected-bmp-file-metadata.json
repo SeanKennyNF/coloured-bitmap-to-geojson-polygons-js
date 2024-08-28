@@ -1,0 +1,22 @@
+{
+  "header": {
+    "signature": "BM",
+    "fileSizeBytes": 16777354,
+    "reservedField": "00000000",
+    "dataOffsetBytes": 138
+  },
+  "infoHeader": {
+    "bitsPerPixel": "THIRTY_TWO_BIT_ALPHA_PLUS_RGB",
+    "bmpHeightPx": 2048,
+    "bmpWidthPx": 2048,
+    "compressionType": "UNKNOWN",
+    "horizontalPixelsPerMetre": 11811,
+    "imageCompressedSizeBytes": 16777216,
+    "infoHeaderSizeBytes": 124,
+    "numberOfColoursUsed": 0,
+    "numberOfImportantColours": 0,
+    "numberOfPlanes": 1,
+    "verticalPixelsPerMetre": 11811
+  },
+  "colourMap": {}
+}

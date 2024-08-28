@@ -1,22 +1,22 @@
 {
   "header": {
     "signature": "BM",
-    "fileSizeBytes": 0,
+    "fileSizeBytes": 921738,
     "reservedField": "00000000",
-    "dataOffsetBytes": 0
+    "dataOffsetBytes": 138
   },
   "infoHeader": {
-    "bitsPerPixel": "ZERO",
-    "bmpHeightPx": 0,
-    "bmpWidthPx": 0,
-    "compressionType": "BI_RGB",
-    "horizontalPixelsPerMetre": 0,
-    "imageCompressedSizeBytes": 0,
-    "infoHeaderSizeBytes": 0,
+    "bitsPerPixel": "THIRTY_TWO_BIT_ALPHA_PLUS_RGB",
+    "bmpHeightPx": 480,
+    "bmpWidthPx": 480,
+    "compressionType": "UNKNOWN",
+    "horizontalPixelsPerMetre": 11811,
+    "imageCompressedSizeBytes": 921600,
+    "infoHeaderSizeBytes": 124,
     "numberOfColoursUsed": 0,
     "numberOfImportantColours": 0,
-    "numberOfPlanes": 0,
-    "verticalPixelsPerMetre": 0
+    "numberOfPlanes": 1,
+    "verticalPixelsPerMetre": 11811
   },
   "colourMap": {}
 }
