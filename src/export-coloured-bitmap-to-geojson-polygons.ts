@@ -1,7 +1,6 @@
 import { readFile } from "fs/promises";
 import { BmpFileMetadata, extractColourMapFromHexBmpData, extractHeaderFromHexBmpData, extractInfoHeaderFromHexBmpData } from "./bmp-file-metadata.js";
 import { OutputGeoJSON } from "./geojson-types.js";
-import { hexStringtoAsciiString, hexStringToNumericValue } from "./hex-helpers.js";
 import { extractImageDataFromHexBmpData } from "./image-data/image-data.js";
 import { consolidateImageDataIntoPolygons } from "./image-data-to-polygons/image-data-to-polygons.js";
 
