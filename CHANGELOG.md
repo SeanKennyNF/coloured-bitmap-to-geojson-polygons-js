@@ -20,4 +20,8 @@
 
 ## Version 0.1.4 - August 27th 2024
 
+- No changes, accidental publish.
+
+## Version 0.1.5 - August 27th 2024
+
 - Fixed a bug with the imports.
