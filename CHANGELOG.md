@@ -13,3 +13,7 @@
 ## Version 0.1.2 - August 27th 2024
 
 - Fixed typos in `README.md`
+
+## Version 0.1.3 - August 27th 2024
+
+- Added repository link into the `package.json` file.
