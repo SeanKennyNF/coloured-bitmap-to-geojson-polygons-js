@@ -1,5 +1,5 @@
 import { hexStringToNumericValue } from "../hex-helpers.js";
-import { ExtractImageDataFromHexBmpDataInput, ExtractImageDataFromHexBmpDataOutput } from "./image-data";
+import { ExtractImageDataFromHexBmpDataInput, ExtractImageDataFromHexBmpDataOutput } from "./image-data.js";
 
 type ParseTwentyFourBitRgbImageDataInput = Omit<ExtractImageDataFromHexBmpDataInput, 'bitsPerPixel'>;
 type ParseTwentyFourBitRgbImageDataOutput = ExtractImageDataFromHexBmpDataOutput;

@@ -1,6 +1,6 @@
-import { Polygon } from "../geojson-types";
-import { consolidatePolygonCellsIntoCornerIndexPolygonInput } from "./consolidate-polygon-cells-into-corner-index-polygon";
-import { convertCornerIndexPolygonIntoGeoJSONPolygon } from "./convert-corner-index-polygon-into-geojson-polygon";
+import { Polygon } from "../geojson-types.js";
+import { consolidatePolygonCellsIntoCornerIndexPolygonInput } from "./consolidate-polygon-cells-into-corner-index-polygon.js";
+import { convertCornerIndexPolygonIntoGeoJSONPolygon } from "./convert-corner-index-polygon-into-geojson-polygon.js";
 import { segmentDataIntoPolygonCellCollection } from "./segment-data-into-polygon-cell-collection.js";
 
 interface ConsolidateImageDataIntoPolygonsInput<TData extends Record<string, unknown>> {

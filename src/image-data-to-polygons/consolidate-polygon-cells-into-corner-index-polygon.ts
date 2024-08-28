@@ -1,4 +1,4 @@
-import { Coordinate } from "../geojson-types";
+import { Coordinate } from "../geojson-types.js";
 
 enum LastMove {
   DOWNWARDS = 'DOWNWARDS',

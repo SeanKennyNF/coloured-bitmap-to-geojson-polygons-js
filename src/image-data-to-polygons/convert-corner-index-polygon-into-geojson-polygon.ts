@@ -1,4 +1,4 @@
-import { Polygon } from "../geojson-types";
+import { Polygon } from "../geojson-types.js";
 
 interface ConvertCornerIndexPolygonIntoGeoJSONPolygonInput<TData extends Record<string, unknown>> {
   colourToPropertiesMap: Record<string, TData>;

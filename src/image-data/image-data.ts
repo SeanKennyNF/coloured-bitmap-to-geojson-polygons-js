@@ -1,5 +1,4 @@
 import { BitsPerPixel } from "../bits-per-pixel.js";
-import { hexStringToNumericValue } from "../hex-helpers.js";
 import { parseThirtyTwoBitAlphaPlusRgbImageData } from "./thirty-two-bit-alpha-plus-rgb-image-data-parser.js";
 import { parseTwentyFourBitRgbImageData } from "./twenty-four-bit-rgb-image-data-parser.js";
 

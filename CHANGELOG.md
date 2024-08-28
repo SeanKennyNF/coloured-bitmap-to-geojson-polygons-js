@@ -17,3 +17,7 @@
 ## Version 0.1.3 - August 27th 2024
 
 - Added repository link into the `package.json` file.
+
+## Version 0.1.4 - August 27th 2024
+
+- Fixed a bug with the imports.
