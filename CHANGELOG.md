@@ -9,3 +9,7 @@
 ## Version 0.1.1 - August 27th 2024
 
 - Added better `README.md`.
+
+## Version 0.1.2 - August 27th 2024
+
+- Fixed typos in `README.md`
