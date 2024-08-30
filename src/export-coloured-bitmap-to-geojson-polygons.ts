@@ -2,7 +2,7 @@ import { readFile } from "fs/promises";
 import { BmpFileMetadata, extractColourMapFromHexBmpData, extractHeaderFromHexBmpData, extractInfoHeaderFromHexBmpData } from "./bmp-file-metadata.js";
 import { OutputGeoJSON } from "./geojson-types.js";
 import { extractImageDataFromHexBmpData } from "./image-data/image-data.js";
-import { consolidateImageDataIntoPolygons } from "./image-data-to-polygons/image-data-to-polygons.js";
+import { consolidateImageDataIntoFeatures } from "./image-data-to-features/image-data-to-features.js";
 
 export interface ExportColouredBitmapToGeoJSONPolygonsInput<TData extends Record<string, unknown>> {
   inputFilePath: string;
@@ -37,7 +37,7 @@ export const exportColouredBitmapToGeoJSONPolygons = async<TData extends Record<
     infoHeaderSizeBytes,
     colourMapSizeBytes
   });
-  const { polygons } = consolidateImageDataIntoPolygons({
+  const { features } = consolidateImageDataIntoFeatures({
     imageData,
     bitmapWidthPx: infoHeader.bmpWidthPx,
     bitmapHeightPx: infoHeader.bmpHeightPx,
@@ -52,8 +52,8 @@ export const exportColouredBitmapToGeoJSONPolygons = async<TData extends Record<
       colourMap
     },
     outputGeoJSON: {
-      type: 'GeometryCollection',
-      geometries: polygons
+      type: 'FeatureCollection',
+      features
     }
   };
 }

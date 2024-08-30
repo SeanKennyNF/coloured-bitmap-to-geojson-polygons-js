@@ -25,3 +25,7 @@
 ## Version 0.1.5 - August 27th 2024
 
 - Fixed a bug with the imports.
+
+## Version 0.2.0 - August 30th 2024
+
+- [BREAKING] Changed the library to use a `FeatureCollection` instead of a `GeometryCollection` in order for the properties to actually be read properly by mapping software.
