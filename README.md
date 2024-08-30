@@ -55,45 +55,54 @@ const { outputGeoJSON, bmpFileMetadata } = await exportColouredBitmapToGeoJSONPo
 And `outputGeoJSON` will contain some data in the following format:
 ```
 {
-  "type": "GeometryCollection",
-  "geometries": [
+  "type": "FeatureCollection",
+  "features": [
     {
-      "type": "Polygon",
-      "coordinates": [
-        [
-          [-180, 90],
-          [-180, -90],
-          ...
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-180, 90],
+            [-180, -90],
+            ...
+          ]
         ]
-      ],
+      },
       "properties": {
         "colourHexCode": "#ff0000",
         "data": { "zone": "The red zone" }
       }
     },
     {
-      "type": "Polygon",
-      "coordinates": [
-        [
-          [-176.4, 90],
-          [-176.4, 89.1],
-          ...
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-176.4, 90],
+            [-176.4, 89.1],
+            ...
+          ]
         ]
-      ],
+      },
       "properties": {
         "colourHexCode": "#00ff00",
         "data": { "zone": "The green zone" }
       }
     },
     {
-      "type": "Polygon",
-      "coordinates": [
-        [
-          [1.8000000000000114, 1.7999999999999972],
-          [1.8000000000000114, 0],
-          ...
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [1.8000000000000114, 1.7999999999999972],
+            [1.8000000000000114, 0],
+            ...
+          ]
         ]
-      ],
+      },
       "properties": {
         "colourHexCode": "#0000ff",
         "data": null
