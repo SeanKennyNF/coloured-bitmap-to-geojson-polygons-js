@@ -9,6 +9,10 @@ const testCases: Array<{
   colourToPropertiesMap: ExportColouredBitmapToGeoJSONPolygonsInput<{
     zone: string;
   }>['colourToPropertiesMap'];
+  domainLatitudeLowerBound?: number | undefined;
+  domainLatitudeUpperBound?: number | undefined;
+  domainLongitudeLowerBound?: number | undefined;
+  domainLongitudeUpperBound?: number | undefined;
   artifactFilename: string;
   geoJsonExpectedOutputFilename: string;
   metadataExpectedOutputFilename: string;
@@ -37,6 +41,17 @@ const testCases: Array<{
     artifactFilename: 'provinces-subset-1-geojson-artifact.json',
     geoJsonExpectedOutputFilename: 'provinces-subset-1-expected-geojson-output.json',
     metadataExpectedOutputFilename: 'provinces-subset-1-expected-bmp-file-metadata.json',
+  },
+  {
+    inputFilename: 'provinces-subset-1.bmp',
+    colourToPropertiesMap: {},
+    domainLatitudeLowerBound: -30,
+    domainLatitudeUpperBound: 60,
+    domainLongitudeLowerBound: -20,
+    domainLongitudeUpperBound: 20,
+    artifactFilename: 'provinces-subset-1-with-domain-geojson-artifact.json',
+    geoJsonExpectedOutputFilename: 'provinces-subset-1-with-domain-expected-geojson-output.json',
+    metadataExpectedOutputFilename: 'provinces-subset-1-with-domain-expected-bmp-file-metadata.json',
   },
   {
     inputFilename: 'provinces-subset-2.bmp',
@@ -73,24 +88,36 @@ const testCases: Array<{
     geoJsonExpectedOutputFilename: 'provinces-subset-6-expected-geojson-output.json',
     metadataExpectedOutputFilename: 'provinces-subset-6-expected-bmp-file-metadata.json',
   },
-  //{
-  //  inputFilename: 'provinces.bmp',
-  //  colourToPropertiesMap: {},
-  //  artifactFilename: 'provinces-geojson-artifact.json',
-  //  geoJsonExpectedOutputFilename: 'provinces-expected-geojson-output.json',
-  //  metadataExpectedOutputFilename: 'provinces-expected-bmp-file-metadata.json',
-  //},
 ]
 
-test.each(testCases)('exportColouredBitmapToGeoJSONPolygons should produce the right output for $inputFilename', { timeout: 200000 }, async(
-  { inputFilename, artifactFilename, geoJsonExpectedOutputFilename, metadataExpectedOutputFilename, colourToPropertiesMap }
-) => {
+test.each(testCases)('exportColouredBitmapToGeoJSONPolygons should produce the right output for $inputFilename -> $geoJsonExpectedOutputFilename', { timeout: 200000 }, async({
+  inputFilename,
+  artifactFilename,
+  geoJsonExpectedOutputFilename,
+  metadataExpectedOutputFilename,
+  colourToPropertiesMap,
+  domainLatitudeLowerBound,
+  domainLatitudeUpperBound,
+  domainLongitudeLowerBound,
+  domainLongitudeUpperBound
+}) => {
   const input = {
     inputFilePath: path.join(
       __dirname,
       'sample-inputs',
       inputFilename,
     ),
+    domainBounds: (
+      domainLatitudeLowerBound !== undefined &&
+      domainLatitudeUpperBound !== undefined &&
+      domainLongitudeLowerBound !== undefined &&
+      domainLongitudeUpperBound !== undefined
+    ) ? {
+      latitudeLowerBound: domainLatitudeLowerBound,
+      latitudeUpperBound: domainLatitudeUpperBound,
+      longitudeLowerBound: domainLongitudeLowerBound,
+      longitudeUpperBound: domainLongitudeUpperBound,
+    } : undefined,
     colourToPropertiesMap
   }
 

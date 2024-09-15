@@ -112,6 +112,14 @@ And `outputGeoJSON` will contain some data in the following format:
 }
 ```
 
+### domainBounds 
+
+`domainBounds` is an additional optional argument to `exportColouredBitmapToGeoJSONPolygons` which allows you to specify where the corners of your output GeoJSON file should be on the globe. The default `domainBounds` values is `{ latitudeLowerBound: -90, latitudeUpperBound: 90, longitudeLowerBound: -180, longitudeUpperBound: 180 }` which covers the entire globe. The image below shows the effect of a `domainBounds` value of `{ domainLatitudeLowerBound: -30, domainLatitudeUpperBound: 60, domainLongitudeLowerBound: -20, domainLongitudeUpperBound: 20}` on a `.bmp` file.
+
+Original BMP file          |  Output GeoJSON file
+:-------------------------:|:-------------------------:
+![](https://github.com/SeanKennyNF/coloured-bitmap-to-geojson-polygons-js/blob/main/readme-images/domain-bounds-example.png)  |  ![](https://github.com/SeanKennyNF/coloured-bitmap-to-geojson-polygons-js/blob/main/readme-images/domain-bounds-example-output.png)
+
 
 ## Some sample inputs and outputs
 

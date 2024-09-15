@@ -1,3 +1,4 @@
+import { DomainBounds } from "../domain-bounds.js";
 import { Feature } from "../geojson-types.js";
 import { consolidatePolygonCellsIntoCornerIndexPolygonInput } from "./consolidate-polygon-cells-into-corner-index-polygon.js";
 import { convertCornerIndexPolygonIntoGeoJSONFeature } from "./convert-corner-index-polygon-into-geojson-feature.js";
@@ -17,6 +18,7 @@ interface ConsolidateImageDataIntoFeaturesInput<TData extends Record<string, unk
   }>;
   bitmapWidthPx: number;
   bitmapHeightPx: number;
+  domainBounds: DomainBounds;
 }
 
 interface ConsolidateImageDataIntoFeaturesOutput<TData extends Record<string, unknown>> {
@@ -26,7 +28,7 @@ interface ConsolidateImageDataIntoFeaturesOutput<TData extends Record<string, un
 export const consolidateImageDataIntoFeatures = <TData extends Record<string, unknown>>(
   input: ConsolidateImageDataIntoFeaturesInput<TData>
 ): ConsolidateImageDataIntoFeaturesOutput<TData> => {
-  const { imageData, bitmapWidthPx, bitmapHeightPx, colourToPropertiesMap } = input;
+  const { imageData, bitmapWidthPx, bitmapHeightPx, colourToPropertiesMap, domainBounds } = input;
 
   const { polygonCellCollection } = segmentDataIntoPolygonCellCollection({
     imageData
@@ -42,7 +44,8 @@ export const consolidateImageDataIntoFeatures = <TData extends Record<string, un
       green,
       blue,
       bitmapWidthPx,
-      bitmapHeightPx
+      bitmapHeightPx,
+      domainBounds
     }).feature)
     .filter((element): element is NonNullable<typeof element> => !!element)
 

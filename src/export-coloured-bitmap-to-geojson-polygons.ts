@@ -3,10 +3,12 @@ import { BmpFileMetadata, extractColourMapFromHexBmpData, extractHeaderFromHexBm
 import { OutputGeoJSON } from "./geojson-types.js";
 import { extractImageDataFromHexBmpData } from "./image-data/image-data.js";
 import { consolidateImageDataIntoFeatures } from "./image-data-to-features/image-data-to-features.js";
+import { DomainBounds } from "./domain-bounds.js";
 
 export interface ExportColouredBitmapToGeoJSONPolygonsInput<TData extends Record<string, unknown>> {
   inputFilePath: string;
   colourToPropertiesMap: Record<string, TData>;
+  domainBounds?: DomainBounds | undefined;
 }
 export interface ExportColouredBitmapToGeoJSONPolygonsOutput<TData extends Record<string, unknown>> {
   outputGeoJSON: OutputGeoJSON<TData>
@@ -17,6 +19,13 @@ export const exportColouredBitmapToGeoJSONPolygons = async<TData extends Record<
   input: ExportColouredBitmapToGeoJSONPolygonsInput<TData>
 ): Promise<ExportColouredBitmapToGeoJSONPolygonsOutput<TData>> => {
   const bmpData = await readFile(input.inputFilePath);
+
+  const domainBounds: DomainBounds = input.domainBounds ?? {
+    latitudeLowerBound: -90,
+    latitudeUpperBound: 90,
+    longitudeLowerBound: -180,
+    longitudeUpperBound: 180
+  }
 
   const hexBmpData = bmpData.toString('hex');
   const { header, headerSizeBytes } = extractHeaderFromHexBmpData({ hexBmpData });
@@ -42,7 +51,8 @@ export const exportColouredBitmapToGeoJSONPolygons = async<TData extends Record<
     bitmapWidthPx: infoHeader.bmpWidthPx,
     bitmapHeightPx: infoHeader.bmpHeightPx,
     allColoursPresent,
-    colourToPropertiesMap: input.colourToPropertiesMap
+    colourToPropertiesMap: input.colourToPropertiesMap,
+    domainBounds
   }) 
 
   return {
