@@ -1,3 +1,4 @@
+import { DomainBounds } from "../domain-bounds.js";
 import { Feature } from "../geojson-types.js";
 
 interface ConvertCornerIndexPolygonIntoGeoJSONFeatureInput<TData extends Record<string, unknown>> {
@@ -8,6 +9,7 @@ interface ConvertCornerIndexPolygonIntoGeoJSONFeatureInput<TData extends Record<
   blue: number;
   bitmapWidthPx: number;
   bitmapHeightPx: number;
+  domainBounds: DomainBounds;
 }
 
 interface ConvertCornerIndexPolygonIntoGeoJSONFeatureOutput<TData extends Record<string, unknown>> {
@@ -26,11 +28,10 @@ const rgbToHexString = (input: { red: number, green: number, blue: number }): st
 export const convertCornerIndexPolygonIntoGeoJSONFeature = <TData extends Record<string, unknown>>(
   input: ConvertCornerIndexPolygonIntoGeoJSONFeatureInput<TData>
 ): ConvertCornerIndexPolygonIntoGeoJSONFeatureOutput<TData> => {
-  const colourHexString = rgbToHexString({
-    red: input.red,
-    green: input.green,
-    blue: input.blue
-  }).toLowerCase();
+  const { cornersForPolygon, domainBounds, colourToPropertiesMap, red, blue, green, bitmapWidthPx, bitmapHeightPx } = input;
+  const { latitudeLowerBound, latitudeUpperBound, longitudeLowerBound, longitudeUpperBound } = domainBounds;
+
+  const colourHexString = rgbToHexString({ red, green, blue }).toLowerCase();
 
   return {
     feature: {
@@ -38,15 +39,15 @@ export const convertCornerIndexPolygonIntoGeoJSONFeature = <TData extends Record
       geometry: {
         type: "Polygon" as const,
         coordinates: [
-          input.cornersForPolygon.map(([cornerColIndex, cornerRowIndex]) => [
-            -180 + ((cornerColIndex / input.bitmapWidthPx ) * 360),
-            90 - ((cornerRowIndex / input.bitmapHeightPx ) * 180),
+          cornersForPolygon.map(([cornerColIndex, cornerRowIndex]) => [
+            longitudeLowerBound + ((cornerColIndex / bitmapWidthPx ) * (longitudeUpperBound - longitudeLowerBound)),
+            latitudeUpperBound - ((cornerRowIndex / bitmapHeightPx ) * (latitudeUpperBound - latitudeLowerBound)),
           ])
         ],
       },
       properties: {
         colourHexCode: colourHexString,
-        data: input.colourToPropertiesMap[colourHexString] ?? null
+        data: colourToPropertiesMap[colourHexString] ?? null
       }
     }
   }

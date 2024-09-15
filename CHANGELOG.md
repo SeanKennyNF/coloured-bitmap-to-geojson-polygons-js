@@ -29,3 +29,7 @@
 ## Version 0.2.0 - August 30th 2024
 
 - [BREAKING] Changed the library to use a `FeatureCollection` instead of a `GeometryCollection` in order for the properties to actually be read properly by mapping software.
+
+## Version 0.3.0 - September 15th 2024
+
+- Added a 
