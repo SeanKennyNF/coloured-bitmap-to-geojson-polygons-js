@@ -35,3 +35,7 @@
 - Added a `domainBounds` argument to `exportColouredBitmapToGeoJSONPolygons`.
 - Bumped dev dependency `typescript`, `^5.5.4` -> `^5.6.2`
 - Bumped dev dependency `vitest`, `^2.0.5` -> `^2.1.1`
+
+## Version 0.3.1 - September 27th 2024
+
+- Tiny bumps for some dev dependencies.
