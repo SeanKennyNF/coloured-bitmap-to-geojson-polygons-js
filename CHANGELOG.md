@@ -3,6 +3,8 @@
 ## Version 0.4.0 - January 17th 2026
 
 - [BREAKING] Requires Node 24 or higher (previously required node 20 or higher).
+- Bumped dev dependency `typescript`, `^5.6.2` -> `^5.9.3`
+- Bumped dev dependency `vitest`, `^2.1.1` -> `^4.0.17`
 
 ## Version 0.3.1 - September 27th 2024
 
